@@ -24,12 +24,12 @@ We introduce and assess a set of measures PSentScore aimed at quantifying the pr
 Basic requirements for all the libraries are in the `requirements.txt.`
 
 ### Direct use
-Our trained word-level SA model can be downloaded [here](). Example usage is shown below.
+Our trained BARTScore (on ParaBank2) can be downloaded [here](https://drive.google.com/file/d/1_7JfF7KOInb7ZrxKHIigTMR4ChVET01m/view?usp=sharing). Example usage is shown below.
 
 ```python
 # To use PSentScore based on BERT-DS-SST3 word-level SA model
 >>> from psent_score import PSentScorer
->>> psent_scorer = PSentScorer(["PSent", "PSentP", "PSentN"], checkpoint='/yongxin2020/bert_ds_sst3_5e-5_5_42')
+>>> psent_scorer = PSentScorer(["PSent", "PSentP", "PSentN"], checkpoint='/home/getalp/zhouy/Models/bert_ds_sst3_5e-5_5_42')
 >>> from datasets import load_dataset
 >>> dialogsum = load_dataset("knkarthick/dialogsum")
 # srcs: a list of the source texts, tgts: a list of the target texts
@@ -45,6 +45,27 @@ Our trained word-level SA model can be downloaded [here](). Example usage is sho
   'ccc': -0.058764523200519794,
   'error': 0.0166242155358542},
  'PSentN': {'r': nan, 'ccc': nan, 'error': 0.018701902364918487}}
+```
+
+
+### Reproduce
+To reproduce the results reported in the paper, please see the generated summaries in the folder: `DialSumm_output`, you can use them to conduct analysis.
+
+For analysis, we provide `SUMStat`, `D2TStat` and `WMTStat` in `analysis.py` that can conveniently run analysis. An example of using `SUMStat` is shown below. Detailed usage can refer to `analysis.ipynb`.
+
+```python
+>>> from analysis import SUMStat
+>>> stat = SUMStat('SUM/REALSumm/final_p.pkl')
+>>> stat.evaluate_summary('litepyramid_recall')
+
+[out]
+Human metric: litepyramid_recall
+metric                                               spearman    kendalltau
+-------------------------------------------------  ----------  ------------
+rouge1_r                                            0.497526      0.407974
+bart_score_cnn_hypo_ref_de_id est                   0.49539       0.392728
+bart_score_cnn_hypo_ref_de_Videlicet                0.491011      0.388237
+...
 ```
 
 ### Train your custom PSentScore
@@ -65,24 +86,12 @@ If you want to train your custom PSentScore with paired data, you can train a se
 ## Bib
 Please cite our work if you find it useful.
 ```
-@inproceedings{zhou-etal-2024-psentscore-evaluating,
-    title = "{PS}ent{S}core: Evaluating Sentiment Polarity in Dialogue Summarization",
-    author = "Zhou, Yongxin  and
-      Ringeval, Fabien  and
-      Portet, Fran{\c{c}}ois",
-    editor = "Calzolari, Nicoletta  and
-      Kan, Min-Yen  and
-      Hoste, Veronique  and
-      Lenci, Alessandro  and
-      Sakti, Sakriani  and
-      Xue, Nianwen",
-    booktitle = "Proceedings of the 2024 Joint International Conference on Computational Linguistics, Language Resources and Evaluation (LREC-COLING 2024)",
-    month = may,
-    year = "2024",
-    address = "Torino, Italy",
-    publisher = "ELRA and ICCL",
-    url = "https://aclanthology.org/2024.lrec-main.1163",
-    pages = "13290--13302",
-    abstract = "Automatic dialogue summarization is a well-established task with the goal of distilling the most crucial information from human conversations into concise textual summaries. However, most existing research has predominantly focused on summarizing factual information, neglecting the affective content, which can hold valuable insights for analyzing, monitoring, or facilitating human interactions. In this paper, we introduce and assess a set of measures PSentScore, aimed at quantifying the preservation of affective content in dialogue summaries. Our findings indicate that state-of-the-art summarization models do not preserve well the affective content within their summaries. Moreover, we demonstrate that a careful selection of the training set for dialogue samples can lead to improved preservation of affective content in the generated summaries, albeit with a minor reduction in content-related metrics.",
+@misc{zhou2024psentscore,
+      title={PSentScore: Evaluating Sentiment Polarity in Dialogue Summarization}, 
+      author={Yongxin Zhou and Fabien Ringeval and François Portet},
+      year={2024},
+      eprint={2307.12371},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
 }
 ```
