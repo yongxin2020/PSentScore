@@ -1,7 +1,6 @@
 # PSentScore
 Code for LREC-COLING 2024 paper "PSentScore: Evaluating Sentiment Polarity in Dialogue Summarization"
 
-<--- <img src="./fig/summ_sentiment.png.png" width="300" class="left"><img src="./fig/logo.png" width="400" class="center"> --->
 <img src="./fig/summ_sentiment.png" width=650 class="center">
 
 This is the Repo for the paper: [PSentScore: Evaluating Sentiment Polarity in Dialogue Summarization](https://arxiv.org/abs/2307.12371)
